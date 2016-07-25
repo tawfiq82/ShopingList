@@ -2,8 +2,9 @@
     ViewBag.Title = "Manage Products";
 }
 
-<div ng-controller="productController" >
+<div ng-controller="productController">
     <h3>Manage Products</h3>
+    <div id="alertBox" class="alert" style="display: none"></div>
     <form name="form" novalidate>
         <table class="table">
             <tr>
@@ -28,7 +29,7 @@
                     <div ng-show="isAdding && form.category.$error.required" class="text-danger" ng-cloak>Please select a Category.</div>
                 </td>
                 <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="addProduct(form)">
+                    <button type='button' class="btn btn-primary btn-sm" ng-click="addProduct(form)">
                         <i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </td>
@@ -37,7 +38,7 @@
                 <td>{{product.Name}}</td>
                 <td>{{product.Category.Name}}</td>
                 <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteProduct(product.ProductId)">
+                    <button type='button' class="btn btn-danger btn-sm" ng-click="deleteProduct(product)">
                         <i class="glyphicon glyphicon-trash"></i> Delete
                     </button>
                 </td>
@@ -50,6 +51,7 @@
 {
     <script type="text/javascript">
         var categoryListGlobal = @Html.Raw(ViewBag.CategoryList);
+        var alertBox = new alertBox('#alertBox');
     </script>
     <script src="~/Scripts/app/controllers/productController.js"></script>
 }

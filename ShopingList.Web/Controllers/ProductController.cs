@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace ShopingList.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Common.Contracts.DataContracts;
@@ -33,10 +34,15 @@ namespace ShopingList.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddProduct(Product product)
+        public async Task<JsonResult> AddProductAsync(Product product)
         {
             var productId = await this._productService.AddProductAsync(product);
             return Json(productId);
+        }
+
+        public async Task DeleteProductAsync(Product product)
+        {
+            await _productService.DeleteProductAsync(product);
         }
     }
 }
