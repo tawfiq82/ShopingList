@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Manage Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="categoryController">
+    <h3>Manage Categories</h3>
+    <form name="form" novalidate>
+        <table class="table">
+            <tr>
+                <th width="99%">
+                    Category
+                </th>
+                <th width="2%;"></th>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" id="name" name="name" type="text" ng-model="category.Name" required="" style="width: 100%;" ng-change="checkDuplicateCategory(category.Name)">
+                    <div ng-show="isDuplicateCategory" class="text-danger" ng-cloak>Please enter a different Category.</div>
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid Category.</div>
+                </td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="addCategory(form)">
+                        <i class="glyphicon glyphicon-plus"></i> Add
+                    </button>
+                </td>
+            </tr>
+            <tr ng-repeat="category in categoryList" ng-cloak>
+                <td>{{category.Name}}</td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteCategory(category.CategoryId)">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/app/controllers/categoryController.js"></script>
+}
+
+
+
+

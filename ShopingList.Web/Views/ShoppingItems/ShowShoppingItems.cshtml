@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Shopping Items";
+}
+
+<div ng-controller="shoppingItemController">
+    <h3>Shopping Items</h3>
+    <table class="table">
+        <tr>
+            <th width="49%">
+                Item
+            </th>
+            <th width="2%;"></th>
+        </tr>
+        <tr ng-repeat="product in productList" ng-cloak>
+            <td>{{product.Name}}</td>
+            <td>
+                <button type='button' class="btn btn-default btn-sm" ng-click="addToList(product)">
+                    <i class="glyphicon glyphicon-plus"></i> Add to List
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var categoryListGlobal = @Html.Raw(ViewBag.CategoryList);
+    </script>
+    <script src="~/Scripts/app/controllers/shoppingItemController.js"></script>
+}

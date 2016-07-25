@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Manage Users";
+}
+
+<div ng-controller="userController">
+    <h3>Manage Users</h3>
+    <form name="form" novalidate>
+        <table class="table">
+            <tr>
+                <th width="49%">
+                    User Name
+                </th>
+                <th width="49%">
+                    User Type
+                </th>
+                <th width="2%;"></th>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" id="name" name="name" type="text" ng-model="user.Name" required="" style="width: 100%;">
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid User Name.</div>
+                </td>
+                <td>
+                    <select class='form-control' name="type" id="type" ng-model="user.Type" required="">
+                        <option value="">Please select a User type</option>
+                        <option ng-repeat="type in userTypes" value="{{type.Id}}">{{type.Name}}</option>
+                    </select>
+                    <div ng-show="isAdding && form.type.$error.required" class="text-danger" ng-cloak>Please select a User Type.</div>
+                </td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="addUser(form)">
+                        <i class="glyphicon glyphicon-plus"></i> Add
+                    </button>
+                </td>
+            </tr>
+            <tr ng-repeat="user in userList" ng-cloak>
+                <td>{{user.Name}}</td>
+                <td>{{user.TypeName}}</td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteUser(user.UserId)">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/app/controllers/userController.js"></script>
+}

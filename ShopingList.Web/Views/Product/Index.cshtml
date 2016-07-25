@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Manage Products";
+}
+
+<div ng-controller="productController" >
+    <h3>Manage Products</h3>
+    <form name="form" novalidate>
+        <table class="table">
+            <tr>
+                <th width="49%">
+                    Product Name
+                </th>
+                <th width="49%">
+                    Category
+                </th>
+                <th width="2%;"></th>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" id="name" name="name" type="text" ng-model="product.Name" required="" style="width: 100%;">
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid Product Name.</div>
+                </td>
+                <td>
+                    <select class='form-control' name="category" id="category" ng-model="product.Category.CategoryId" required="">
+                        <option value="">Please select a Category</option>
+                        <option ng-repeat="category in categoryList" value="{{category.CategoryId}}">{{category.Name}}</option>
+                    </select>
+                    <div ng-show="isAdding && form.category.$error.required" class="text-danger" ng-cloak>Please select a Category.</div>
+                </td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="addProduct(form)">
+                        <i class="glyphicon glyphicon-plus"></i> Add
+                    </button>
+                </td>
+            </tr>
+            <tr ng-repeat="product in productList" ng-cloak>
+                <td>{{product.Name}}</td>
+                <td>{{product.Category.Name}}</td>
+                <td>
+                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteProduct(product.ProductId)">
+                        <i class="glyphicon glyphicon-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var categoryListGlobal = @Html.Raw(ViewBag.CategoryList);
+    </script>
+    <script src="~/Scripts/app/controllers/productController.js"></script>
+}

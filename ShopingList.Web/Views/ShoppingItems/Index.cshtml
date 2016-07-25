@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Shopping List";
+}
+
+<div ng-controller="shoppingItemController">
+    <br />
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#shoppingList">Shopping List</a></li>
+        <li><a data-toggle="tab" href="#shoppingItem">Shopping Item</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="shoppingList" class="tab-pane fade in active">
+            <br/>
+            <table class="table">
+                <tr>
+                    <th width="30px"></th>
+                    <th>
+                        <a href="#" ng-click="listSortType = 'Product.Name'; listSortReverse= !listSortReverse">
+                            Item
+                        </a>
+                    </th>
+                    <th width="100px"></th>
+                </tr>
+                <tr style="height: 40px;" ng-repeat="item in shoppingList | orderBy:listSortType:listSortReverse" ng-cloak ng-class="{'success': item.IsChecked }" ng-click="toggleItem(item)">
+                    <td>
+                        <i ng-show="item.IsChecked" class="glyphicon glyphicon-ok-circle"></i>
+                        <span ng-hide="item.IsChecked">{{$index+1}}.</span>
+                    </td>
+                    <td>{{item.Product.Name}}</td>
+                    <td style="text-align: right;">
+                        <button type='button' class="btn btn-default btn-xs" ng-click="removeFromList(item)" ng-hide="item.IsChecked">
+                            <i class="glyphicon glyphicon-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <button type='button' class="btn btn-default btn-lg btn-primary" ng-click="clearAll()" ng-show="shoppingList.length > 0">
+                <i class="glyphicon glyphicon-trash"></i> Clear All
+            </button>
+            <button type='button' class="btn btn-default btn-lg pull-right btn-success" ng-click="checkOut()" ng-show="checkedItems > 0">
+                <i class="glyphicon glyphicon-shopping-cart"></i> Check Out
+            </button>
+        </div>
+        <div id="shoppingItem" class="tab-pane fade">
+            <br />
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search item" ng-model="searchItem">
+                    </div>
+                </div>
+            </form>
+            <table class="table">
+                <tr>
+                    <th>
+                        <a href="#" ng-click="itemSortType = 'Name'; itemSortReverse= !itemSortReverse">
+                            Item
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" ng-click="itemSortType = 'Category.Name'; itemSortReverse= !itemSortReverse">
+                            Category
+                        </a>
+                    </th>
+                    <th  width="100px"></th>
+                </tr>
+                <tr ng-repeat="product in productList | orderBy:itemSortType:itemSortReverse | filter:searchItem" ng-cloak>
+                    <td>{{product.Name}}</td>
+                    <td>{{product.Category.Name}}</td>
+                    <td style="text-align: right;">
+                        <button type='button' class="btn btn-default btn-sm" ng-click="addToList(product)">
+                            <i class="glyphicon glyphicon-plus"></i> Add to List
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var categoryListGlobal = @Html.Raw(ViewBag.CategoryList);
+    </script>
+    <script src="~/Scripts/app/controllers/shoppingItemController.js"></script>
+}

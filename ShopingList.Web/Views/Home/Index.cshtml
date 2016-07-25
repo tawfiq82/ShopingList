@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+@model ShopingList.Common.Contracts.DataContracts.User
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shopping List</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/Pages/loginPages.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="loginmodal-container">
+        <h1>Login to Shopping List</h1><br>
+        @using (Html.BeginForm("Login", "Home"))
+        {
+            @Html.EditorFor(m => m.Name)
+            <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+        }
+    </div>
+</body>
+</html>

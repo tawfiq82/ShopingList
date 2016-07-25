@@ -1,0 +1,1 @@
+﻿var shopingListApp = angular.module('shopingListApp', []);
