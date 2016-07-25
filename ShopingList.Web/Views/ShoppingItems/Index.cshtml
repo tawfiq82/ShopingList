@@ -29,7 +29,7 @@
                     </td>
                     <td>{{item.Product.Name}}</td>
                     <td style="text-align: right;">
-                        <button type='button' class="btn btn-default btn-xs" ng-click="removeFromList(item)" ng-hide="item.IsChecked">
+                        <button type='button' class="btn btn-danger btn-xs" ng-click="removeFromList(item)" ng-hide="item.IsChecked">
                             <i class="glyphicon glyphicon-trash"></i> Remove
                         </button>
                     </td>
@@ -72,7 +72,7 @@
                     <td>{{product.Name}}</td>
                     <td>{{product.Category.Name}}</td>
                     <td style="text-align: right;">
-                        <button type='button' class="btn btn-default btn-sm" ng-click="addToList(product)">
+                        <button type='button' class="btn btn-primary btn-xs" ng-click="addToList(product)">
                             <i class="glyphicon glyphicon-plus"></i> Add to List
                         </button>
                     </td>
