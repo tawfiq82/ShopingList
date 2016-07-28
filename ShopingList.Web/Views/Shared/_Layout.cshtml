@@ -29,7 +29,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Shopping List", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+                @*@Html.ActionLink("Shopping List", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+
+                <a class="navbar-brand" href="/" style="padding-top: 12px;"><i class="glyphicon glyphicon-list-alt" style="top: 2px;"></i> Shopping List</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -48,7 +51,10 @@
                 </ul>
                 <ul class="nav pull-right navbar-nav">
                     <li>
-                        <a href="@Url.Action("Logout","Home")"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
+                        <a href="#"><i class="glyphicon glyphicon-user"></i> @user.Name</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Logout", "Home")"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>

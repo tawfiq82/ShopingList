@@ -1,37 +1,54 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Manage Categories";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div ng-controller="categoryController">
     <h3>Manage Categories</h3>
+    @Html.AlertBox("alertBox")
     <form name="form" novalidate>
         <table class="table">
             <tr>
-                <th width="99%">
+                <th>
                     Category
                 </th>
-                <th width="2%;"></th>
+                <th></th>
             </tr>
             <tr>
                 <td>
-                    <input class="form-control" id="name" name="name" type="text" ng-model="category.Name" required="" style="width: 100%;" ng-change="checkDuplicateCategory(category.Name)">
-                    <div ng-show="isDuplicateCategory" class="text-danger" ng-cloak>Please enter a different Category.</div>
-                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid Category.</div>
+                    <input ng-disabled="isUpdating" class="form-control" id="name" name="name" type="text" ng-model="category.Name" required="" style="width: 100%;" ng-change="checkDuplicateCategory(category)">
+                    <div ng-show="isAdding && isDuplicateCategory" class="text-danger validation-error" ng-cloak>A category with same name already exists.</div>
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid Category.</div>
                 </td>
                 <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="addCategory(form)">
+                    <button ng-hide="isUpdating" type='button' class="btn btn-success btn-sm" ng-click="addCategory(form)">
                         <i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </td>
             </tr>
-            <tr ng-repeat="category in categoryList" ng-cloak>
-                <td>{{category.Name}}</td>
-                <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteCategory(category.CategoryId)">
-                        <i class="glyphicon glyphicon-trash"></i> Delete
-                    </button>
+            <tr ng-repeat="vCategory in categoryList" ng-cloak style="height: 48px;">
+                <td style="vertical-align: middle;">
+                    <span ng-hide="vCategory.IsUpdating">{{vCategory.Name}}</span>
+                    <input ng-show="vCategory.IsUpdating" class="form-control" id="updateName" name="updateName" type="text" ng-model="vCategory.Name" required="" style="width: 100%;" ng-change="checkDuplicateCategory(vCategory)">
+                    <div ng-show="vCategory.IsUpdating && isDuplicateCategory" class="text-danger validation-error" ng-cloak>A category with same name already exists.</div>
+                    <div ng-show="vCategory.IsUpdating && form.updateName.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid Category.</div>
+                </td>
+
+                <td width="158px">
+                    <div ng-hide="vCategory.HideControls">
+                        <button type='button' class="btn btn-info btn-sm" ng-click="editCategory(vCategory)" ng-hide="vCategory.IsUpdating">
+                            <i class="glyphicon glyphicon-edit"></i> Edit
+                        </button>
+                        <button type='button' class="btn btn-danger btn-sm" ng-click="deleteCategory(vCategory.CategoryId)" ng-hide="vCategory.IsUpdating">
+                            <i class="glyphicon glyphicon-trash"></i> Delete
+                        </button>
+                        <button type='button' class="btn btn-success btn-sm" ng-click="updateCategory(form, vCategory)" ng-show="vCategory.IsUpdating">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Update
+                        </button>
+                        <button type='button' class="btn btn-warning btn-sm" ng-click="cancelUpdate(vCategory)" ng-show="vCategory.IsUpdating">
+                            Cancel
+                        </button>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -40,6 +57,9 @@
 
 @section Scripts
 {
+    <script type="text/javascript">
+        var alertBox = new alertBox('#alertBox');
+    </script>
     <script src="~/Scripts/app/controllers/categoryController.js"></script>
 }
 

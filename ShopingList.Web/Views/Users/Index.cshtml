@@ -4,42 +4,67 @@
 
 <div ng-controller="userController">
     <h3>Manage Users</h3>
+    @Html.AlertBox("alertBox")
     <form name="form" novalidate>
         <table class="table">
             <tr>
-                <th width="49%">
+                <th>
                     User Name
                 </th>
-                <th width="49%">
+                <th width="">
                     User Type
                 </th>
-                <th width="2%;"></th>
+                <th></th>
             </tr>
             <tr>
                 <td>
-                    <input class="form-control" id="name" name="name" type="text" ng-model="user.Name" required="" style="width: 100%;">
-                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid User Name.</div>
+                    <input ng-disabled="isUpdating" class="form-control" id="name" name="name" type="text" ng-model="user.Name" required="" style="width: 100%;" ng-change="checkDuplicateUser(user)">
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid User Name.</div>
+                    <div ng-show="isAdding && isDuplicateUser" class="text-danger validation-error" ng-cloak>A user with same name already exists.</div>
                 </td>
                 <td>
-                    <select class='form-control' name="type" id="type" ng-model="user.Type" required="">
+                    <select ng-disabled="isUpdating" class='form-control' name="type" id="type" ng-model="user.Type" required="">
                         <option value="">Please select a User type</option>
                         <option ng-repeat="type in userTypes" value="{{type.Id}}">{{type.Name}}</option>
                     </select>
-                    <div ng-show="isAdding && form.type.$error.required" class="text-danger" ng-cloak>Please select a User Type.</div>
+                    <div ng-show="isAdding && form.type.$error.required" class="text-danger validation-error" ng-cloak>Please select a User Type.</div>
                 </td>
-                <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="addUser(form)">
+                <td width="155px">
+                    <button ng-hide="isUpdating" type='button' class="btn btn-success btn-sm" ng-click="addUser(form)">
                         <i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </td>
             </tr>
-            <tr ng-repeat="user in userList" ng-cloak>
-                <td>{{user.Name}}</td>
-                <td>{{user.TypeName}}</td>
-                <td>
-                    <button type='button' class="btn btn-default btn-sm" ng-click="deleteUser(user.UserId)">
-                        <i class="glyphicon glyphicon-trash"></i> Delete
-                    </button>
+            <tr ng-repeat="vUser in userList" ng-cloak style="height: 48px;">
+                <td style="vertical-align: middle;">
+                    <span ng-hide="vUser.IsUpdating">{{vUser.Name}}</span>
+                    <input ng-show="vUser.IsUpdating" class="form-control" id="updateName" name="updateName" type="text" ng-model="vUser.Name" required="" style="width: 100%;" ng-change="checkDuplicateUser(vUser)">
+                    <div ng-show="vUser.IsUpdating && form.updateName.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid User Name.</div>
+                    <div ng-show="vUser.IsUpdating && isDuplicateUser" class="text-danger validation-error" ng-cloak>A user with same name already exists.</div>
+                </td>
+                <td style="vertical-align: middle;">
+                    <span ng-hide="vUser.IsUpdating">{{vUser.TypeName}}</span>
+                    <select ng-show="vUser.IsUpdating" class='form-control' name="updateType" id="updateType" ng-model="vUser.Type" required="">
+                        <option value="">Please select a User type</option>
+                        <option ng-repeat="type in userTypes" value="{{type.Id}}" ng-selected="type.Id == vUser.Type">{{type.Name}}</option>
+                    </select>
+                    <div ng-show="vUser.IsUpdating && form.updateType.$error.required" class="text-danger validation-error" ng-cloak>Please select a User Type.</div>
+                </td>
+                <td width="158px">
+                    <div ng-hide="vUser.HideControls">
+                        <button type='button' class="btn btn-info btn-sm" ng-click="editUser(vUser)" ng-hide="vUser.IsUpdating">
+                            <i class="glyphicon glyphicon-edit"></i> Edit
+                        </button>
+                        <button type='button' class="btn btn-danger btn-sm" ng-click="deleteUser(vUser.UserId)" ng-hide="vUser.IsUpdating">
+                            <i class="glyphicon glyphicon-trash"></i> Delete
+                        </button>
+                        <button type='button' class="btn btn-success btn-sm" ng-click="updateUser(form, vUser)" ng-show="vUser.IsUpdating">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Update
+                        </button>
+                        <button type='button' class="btn btn-warning btn-sm" ng-click="cancelUpdate(vUser)" ng-show="vUser.IsUpdating">
+                            Cancel
+                        </button>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -48,5 +73,8 @@
 
 @section Scripts
 {
+    <script type="text/javascript">
+        var alertBox = new alertBox('#alertBox');
+    </script>
     <script src="~/Scripts/app/controllers/userController.js"></script>
 }

@@ -211,9 +211,11 @@
     <Content Include="Views\ShoppingItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\AuthorizeActionFilterAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\ApplicationControllerBase.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HtmlHelperExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +254,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShopingList.Common.Contracts\ShopingList.Common.Contracts.csproj">

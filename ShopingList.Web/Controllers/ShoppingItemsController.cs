@@ -8,8 +8,11 @@ namespace ShopingList.Web.Controllers
     using Common.Contracts.DataContracts;
     using Common.Contracts.ServiceContracts;
     using Newtonsoft.Json;
+    using ActionFilters;
+    using Common.Contracts.Enums;
 
-    public class ShoppingItemsController : Controller
+    [AuthorizeActionFilter(UserType = UserType.Normal)]
+    public class ShoppingItemsController : ApplicationControllerBase
     {
         private readonly IShoppingItemService _shoppingItemService;
         private readonly ICategoryService _categoryService;
@@ -22,47 +25,36 @@ namespace ShopingList.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            List<Category> categoryList = await this._categoryService.GetAllCategoriesAsync();
+            List<Category> categoryList = await _categoryService.GetAllCategoriesAsync();
             ViewBag.CategoryList = JsonConvert.SerializeObject(categoryList);
             return View();
         }
 
-        //public async Task<ActionResult> ShowShoppingItems()
-        //{
-        //    List<Category> categoryList = await this._categoryService.GetAllCategoriesAsync();
-        //    ViewBag.CategoryList = JsonConvert.SerializeObject(categoryList);
-        //    return View();
-        //}
-
         public async Task<ActionResult> GetShoppingItemsAsync()
         {
-            User user = Session["user"] as User;
-
-            var shoppingItems = await this._shoppingItemService.GetShoppingItemsAsync(user);
+            var shoppingItems = await _shoppingItemService.GetShoppingItemsAsync(SessionUser);
             return Json(shoppingItems, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> AddShoppingItemAsync(Product product)
         {
-            User user = Session["user"] as User;
-            var shoppingItemId = await this._shoppingItemService.AddShoppingItemAsync(user, product);
+            var shoppingItemId = await _shoppingItemService.AddShoppingItemAsync(SessionUser, product);
             return Json(shoppingItemId);
         }
 
         public async Task RemoveShoppingItemAsync(Guid shoppingItemId)
         {
-            await this._shoppingItemService.RemoveShoppingItemAsync(shoppingItemId);
+            await _shoppingItemService.RemoveShoppingItemAsync(shoppingItemId);
         }
 
         public async Task ClearAllShoppingItemsAsync()
         {
-            User user = Session["user"] as User;
-            await this._shoppingItemService.ClearAllShoppingItemsAsync(user);
+            await _shoppingItemService.ClearAllShoppingItemsAsync(SessionUser);
         }
 
         public async Task CheckOutShoppingItemsAsync(IList<ShopingItem> shoppingItems)
         {
-            await this._shoppingItemService.CheckOutShoppingItemsAsync(shoppingItems);
+            await _shoppingItemService.CheckOutShoppingItemsAsync(shoppingItems);
         }
     }
 }

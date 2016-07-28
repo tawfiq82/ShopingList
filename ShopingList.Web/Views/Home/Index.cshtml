@@ -21,7 +21,11 @@
         @using (Html.BeginForm("Login", "Home"))
         {
             @Html.EditorFor(m => m.Name)
-            <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            @*<input type="submit" name="login" class="login loginmodal-submit" value="Login">*@
+            <button type='submit' class="login loginmodal-submit btn btn-lg" name="login">
+                <i class="glyphicon glyphicon-log-in"></i>
+                Login
+            </button>
         }
     </div>
 </body>

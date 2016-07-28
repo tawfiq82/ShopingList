@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace ShopingList.Web.Controllers
 {
@@ -11,7 +7,7 @@ namespace ShopingList.Web.Controllers
     using Common.Contracts.Enums;
     using Common.Contracts.ServiceContracts;
 
-    public class HomeController : Controller
+    public class HomeController : ApplicationControllerBase
     {
         private readonly IUserService _userService;
 
@@ -23,13 +19,12 @@ namespace ShopingList.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            User user = Session["user"] as User;
-            if (user == null)
+            if (this.SessionUser == null)
             {
                 User model = new User();
                 return View(model);
             }
-            if (user.Type == UserType.Normal)
+            if (this.SessionUser.Type == UserType.Normal)
                 return RedirectToAction("Index", "ShoppingItems");
             return RedirectToAction("Index", "Product");
         }

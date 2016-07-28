@@ -6,14 +6,17 @@ namespace ShopingList.Web.Controllers
     using System.Threading.Tasks;
     using Common.Contracts.DataContracts;
     using Common.Contracts.ServiceContracts;
+    using ActionFilters;
+    using Common.Contracts.Enums;
 
+    [AuthorizeActionFilter(UserType = UserType.Admin)]
     public class CategoryController : Controller
     {
-        private ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         public CategoryController(ICategoryService categoryService)
         {
-            this._categoryService = categoryService;
+            _categoryService = categoryService;
         }
 
         public ActionResult Index()
@@ -24,22 +27,28 @@ namespace ShopingList.Web.Controllers
         // GET: Categories
         public async Task<JsonResult> GetCategories()
         {
-            var categories = await this._categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddCategory(Category category)
+        public async Task<JsonResult> AddCategoryAsync(Category category)
         {
-            var categoryId = await this._categoryService.AddCategoryAsync(category);
+            var categoryId = await _categoryService.AddCategoryAsync(category);
             return Json(categoryId);
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteCategory(Guid categoryId)
+        public async Task UpdateCategoryAsync(Category category)
         {
-            Category category = await this._categoryService.GetCategoryAsync(categoryId);
-            await this._categoryService.DeleteCategoryAsync(category);
+            await _categoryService.UpdateCategoryAsync(category);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteCategoryAsync(Guid categoryId)
+        {
+            Category category = await _categoryService.GetCategoryAsync(categoryId);
+            await _categoryService.DeleteCategoryAsync(category);
             return Json("OK");
         }
     }

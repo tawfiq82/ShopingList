@@ -16,19 +16,55 @@ textarea {
     max-width: 280px;
 }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
 .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
     border-top: 0 solid #ddd !important;
     border-bottom: 1px solid #ddd !important;
 }
 
 .navbar-inverse {
-     background-color:#405474 !important; 
-     border-color: #405474 !important; 
+    background-color: #293f63 !important;
+    border-color: #293f63 !important;
 }
 
-.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
-    background-color: #405474 !important;
+    .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+        background-color: #293f63 !important;
+    }
+
+    .navbar-inverse .navbar-toggle {
+        border-color: #293f63 !important;
+    }
+
+    .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
+        color: #bab4b4 !important;
+    }
+
+        .navbar-inverse .navbar-nav > li > a:hover {
+            color: #ffffff !important;
+        }
+
+a {
+    color:#293f63 !important;
 }
-.navbar-inverse .navbar-toggle {
-    border-color: #405474 !important;
+
+.btn-primary {
+    background-color: #4d648a !important;
+    border-color: #4d648a !important;
+}
+
+.btn-primary:hover {
+    background-color: #293f63 !important;
+    border-color: #293f63 !important;
+    color: #bab4b4 !important;
+}
+.validation-error {
+    padding-top: 2px;
+    padding-left: 2px;
+}
+
+#alertBox {
+    margin-top: 30px;
 }

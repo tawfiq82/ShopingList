@@ -76,7 +76,7 @@ namespace ShopingList.Data.Sql.Repositories
                 _entities.Users.First(x => x.UserID == user.UserId);
 
             userEntity.Name = user.Name;
-
+            userEntity.Type = (int)user.Type;
             try
             {
                 _entities.Entry(userEntity).State = EntityState.Modified;

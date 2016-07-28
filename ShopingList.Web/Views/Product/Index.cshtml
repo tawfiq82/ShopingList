@@ -4,43 +4,67 @@
 
 <div ng-controller="productController">
     <h3>Manage Products</h3>
-    <div id="alertBox" class="alert" style="display: none"></div>
+    @Html.AlertBox("alertBox")
     <form name="form" novalidate>
         <table class="table">
             <tr>
-                <th width="49%">
+                <th>
                     Product Name
                 </th>
                 <th width="49%">
                     Category
                 </th>
-                <th width="2%;"></th>
+                <th></th>
             </tr>
             <tr>
                 <td>
-                    <input class="form-control" id="name" name="name" type="text" ng-model="product.Name" required="" style="width: 100%;">
-                    <div ng-show="isAdding && form.name.$error.required" class="text-danger" ng-cloak>Please enter a valid Product Name.</div>
+                    <input ng-disabled="isUpdating" class="form-control" id="name" name="name" type="text" ng-model="product.Name" required="" style="width: 100%;" ng-change="checkDuplicate(product)">
+                    <div ng-show="isAdding && form.name.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid Product Name.</div>
+                    <div ng-show="isAdding && isDuplicateProduct" class="text-danger validation-error" ng-cloak>A product with same name already exists.</div>
                 </td>
                 <td>
-                    <select class='form-control' name="category" id="category" ng-model="product.Category.CategoryId" required="">
+                    <select ng-disabled="isUpdating" class='form-control' name="category" id="category" ng-model="product.Category.CategoryId" required="">
                         <option value="">Please select a Category</option>
                         <option ng-repeat="category in categoryList" value="{{category.CategoryId}}">{{category.Name}}</option>
                     </select>
-                    <div ng-show="isAdding && form.category.$error.required" class="text-danger" ng-cloak>Please select a Category.</div>
+                    <div ng-show="isAdding && form.category.$error.required" class="text-danger validation-error" ng-cloak>Please select a Category.</div>
                 </td>
                 <td>
-                    <button type='button' class="btn btn-primary btn-sm" ng-click="addProduct(form)">
+                    <button ng-hide="isUpdating" type='button' class="btn btn-success btn-sm" ng-click="addProduct(form)">
                         <i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </td>
             </tr>
-            <tr ng-repeat="product in productList" ng-cloak>
-                <td>{{product.Name}}</td>
-                <td>{{product.Category.Name}}</td>
-                <td>
-                    <button type='button' class="btn btn-danger btn-sm" ng-click="deleteProduct(product)">
-                        <i class="glyphicon glyphicon-trash"></i> Delete
-                    </button>
+            <tr ng-repeat="vProduct in productList" ng-cloak style="height: 48px;">
+                <td style="vertical-align: middle;">
+                    <span ng-hide="vProduct.IsUpdating">{{vProduct.Name}}</span>
+                    <input ng-show="vProduct.IsUpdating" class="form-control" id="updateName" name="updateName" type="text" ng-model="vProduct.Name" required="" style="width: 100%;" ng-change="checkDuplicate(vProduct)">
+                    <div ng-show="vProduct.IsUpdating && form.updateName.$error.required" class="text-danger validation-error" ng-cloak>Please enter a valid Product Name.</div>
+                    <div ng-show="vProduct.IsUpdating && isDuplicateProduct" class="text-danger validation-error" ng-cloak>A product with same name already exists.</div>
+                </td>
+                <td style="vertical-align: middle;">
+                    <span ng-hide="vProduct.IsUpdating">{{vProduct.Category.Name}}</span>
+                    <select ng-show="vProduct.IsUpdating" class='form-control' name="updateCategory" id="updateCategory" ng-model="vProduct.Category.CategoryId" required="">
+                        <option value="">Please select a Category</option>
+                        <option ng-repeat="category in categoryList" value="{{category.CategoryId}}" ng-selected="category.CategoryId == vProduct.Category.CategoryId">{{category.Name}}</option>
+                    </select>
+                    <div ng-show="vProduct.IsUpdating && form.updateCategory.$error.required" class="text-danger validation-error" ng-cloak>Please select a Category.</div>
+                </td>
+                <td width="158px">
+                    <div ng-hide="vProduct.HideControls">
+                        <button type='button' class="btn btn-info btn-sm" ng-click="editProduct(vProduct)" ng-hide="vProduct.IsUpdating">
+                            <i class="glyphicon glyphicon-edit"></i> Edit
+                        </button>
+                        <button type='button' class="btn btn-danger btn-sm" ng-click="deleteProduct(vProduct)" ng-hide="vProduct.IsUpdating">
+                            <i class="glyphicon glyphicon-trash"></i> Delete
+                        </button>
+                        <button type='button' class="btn btn-success btn-sm" ng-click="updateProduct(form, vProduct)" ng-show="vProduct.IsUpdating">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Update
+                        </button>
+                        <button type='button' class="btn btn-warning btn-sm" ng-click="cancelUpdate(vProduct)" ng-show="vProduct.IsUpdating">
+                            Cancel
+                        </button>
+                    </div>
                 </td>
             </tr>
         </table>

@@ -18,10 +18,10 @@
     }
 
     .loginmodal-container input[type=submit] {
-        width: 100%;
         display: block;
         margin-bottom: 10px;
         position: relative;
+       
     }
 
     .loginmodal-container input[type=text], input[type=password] {
@@ -67,7 +67,7 @@
     background-color: #405474;
     padding: 17px 0px;
     font-family: roboto;
-    font-size: 14px;
+     width: 280px;
     /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
 }
 
@@ -76,6 +76,7 @@
         border: 0px;
         text-shadow: 0 1px rgba(0,0,0,0.3);
         background-color: #576780;
+        color: #bab4b4 !important;
         /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
     }
 

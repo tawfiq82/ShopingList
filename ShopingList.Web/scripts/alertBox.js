@@ -10,43 +10,39 @@
     alertBox.prototype.showSuccessMessage = function (message) {
         this.resetAlertStyle();
 
-        $(this._alertPanelSelector).addClass("alert-success").html(message).show();
+        $(this._alertPanelSelector).find('span#message').html(message);
+        $(this._alertPanelSelector).addClass("alert-success").show();
     };
 
     alertBox.prototype.showErrorMessage = function (message) {
         this.resetAlertStyle();
-
-        $(this._alertPanelSelector).addClass("alert-danger").html(message).show();
-    };
-
-    alertBox.prototype.showErrorMessageWithActivityId = function (message, activityid) {
-        this.resetAlertStyle();
-
-        // TODO: Localize string.
-        $(this._alertPanelSelector).addClass("alert-danger").html(message + '<div class="alert-activityId">Activity Id: ' + activityid + '</div>').show();
+        $(this._alertPanelSelector).find('span#message').html(message);
+        $(this._alertPanelSelector).addClass("alert-danger").show();
     };
 
     alertBox.prototype.showRefreshPageMessage = function (message) {
         this.resetAlertStyle();
 
         // TODO: Localize string.
-        $(this._alertPanelSelector).addClass("alert-danger").html(message + ' <a href=\"javascript:history.go(0);\">Refresh the page.</a>').show();
+        $(this._alertPanelSelector).find('span#message').html(message + ' <a href=\"javascript:history.go(0);\">Refresh the page.</a>');
+        $(this._alertPanelSelector).addClass("alert-danger").show();
     };
 
     alertBox.prototype.showInfoMessage = function (message) {
         this.resetAlertStyle();
-
-        $(this._alertPanelSelector).addClass("alert-info").html(message).show();
+        $(this._alertPanelSelector).find('span#message').html(message);
+        $(this._alertPanelSelector).addClass("alert-info").show();
     };
 
     alertBox.prototype.showWarningMessage = function (message) {
         this.resetAlertStyle();
-
-        $(this._alertPanelSelector).addClass("alert-warning").html(message).show();
+        $(this._alertPanelSelector).find('span#message').html(message);
+        $(this._alertPanelSelector).addClass("alert-warning").show();
     };
 
     alertBox.prototype.hide = function () {
-        $(this._alertPanelSelector).html('').hide();
+        $(this._alertPanelSelector).find('span#message').html('');
+        $(this._alertPanelSelector).hide();
     };
 
     alertBox.prototype.resetAlertStyle = function () {

@@ -3,6 +3,7 @@
     public enum UserType
     {
         Admin = 1,
-        Normal = 2
+        Normal = 2,
+        Both
     }
 }
